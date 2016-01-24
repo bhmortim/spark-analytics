@@ -1,3 +1,4 @@
+//-------------------------------------------------------------------------------------------------------------------------//
 // Execute: Spark Job 
 // dse spark -i:count_disease_url.scala
 import org.apache.spark.sql.functions._
