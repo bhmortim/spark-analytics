@@ -3,6 +3,7 @@
 // dse spark -i:partition-general-disease.scala 
 // dse hadoop fs -ls /user/cassandra
 // dse hadoop fs -getmerge /user/root/tumor tumor.dat
+// dse hadoop fs -rmr /user/root/tumor
 //-------------------------------------------------------------------------------------------------------------------------//
 import org.apache.spark.sql.functions._
 
