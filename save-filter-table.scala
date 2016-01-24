@@ -47,7 +47,8 @@ diseases.foreach( disease => {
     println(disease)
     val df2 = df1.filter(col("url").contains(disease))
     val df3 = df2.withColumn("condition", org.apache.spark.sql.functions.lit(disease))
-    df3.write.format("org.apache.spark.sql.cassandra").options(Map( "keyspace" -> "disease", "table" -> "general" )).mode(SaveMode.Overwrite).save()save
+    df3.write.format("org.apache.spark.sql.cassandra").options(Map( "keyspace" -> "disease", "table" -> "temp" )).mode(SaveMode.Overwrite).save()save
+    csc.sql("insert into table general select * from temp")
     df3.printSchema() 
 } )
 
