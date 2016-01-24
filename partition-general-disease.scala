@@ -1,6 +1,9 @@
 //-------------------------------------------------------------------------------------------------------------------------//
 // Execute: Spark Job 
 // dse spark -i:partition-general-disease.scala 
+// dse hadoop fs -ls /user/cassandra
+// dse hadoop fs -getmerge /user/root/tumor tumor.dat
+//-------------------------------------------------------------------------------------------------------------------------//
 import org.apache.spark.sql.functions._
 
 val diseases=Array(
@@ -39,15 +42,17 @@ val df1 = csc.read.format("org.apache.spark.sql.cassandra").options(Map( "keyspa
 df1.printSchema()
 //-------------------------------------------------------------------------------------------------------------------------//
 diseases.foreach( disease => {
+
     println(disease)
     val df2 = df1.filter(col("url").contains(disease))
     val df3 = df2.withColumn("condition", org.apache.spark.sql.functions.lit(disease))
-    df3.rdd.saveAsTextFile("/root/spark-analytics/links/" + disease + ".dat") 
+    df3.rdd.coalesce(1,true).saveAsTextFile(disease) 
 
+    //df3.write.format("org.apache.spark.sql.cassandra").options(Map( "keyspace" -> "disease", "table" -> "general" )).save
+    //dataframe.rdd.oalesce(1,true).saveAsTextFile()
     //csc.sql("insert into table mental select * from brain")
     //df3.saveAsTextFile("/root/spark-analytics/links/" + disease + ".dat")
     //df3.printSchema() //df3.show()
-    //df3.write.format("org.apache.spark.sql.cassandra").options(Map( "keyspace" -> "disease", "table" -> "general" )).save
 } )
 
 //-------------------------------------------------------------------------------------------------------------------------//
