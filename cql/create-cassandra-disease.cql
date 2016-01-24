@@ -20,5 +20,10 @@ CREATE TABLE IF NOT EXISTS fungal    ( url text PRIMARY KEY );
 CREATE TABLE IF NOT EXISTS gerson    ( url text PRIMARY KEY );
 CREATE TABLE IF NOT EXISTS vulgaris  ( url text PRIMARY KEY );
 -- ---------------------------------------------------------- --
+CREATE TABLE IF NOT EXISTS general  ( condition text,
+                                      url text,
+                                      PRIMARY KEY (condition, url)
+                                     );
+-- ---------------------------------------------------------- --
 
 DESCRIBE KEYSPACE disease;
